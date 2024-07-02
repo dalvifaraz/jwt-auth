@@ -26,19 +26,19 @@ app.get('/smoothies', (req, res) => res.render('smoothies'));
 app.use(authRoutes);
 
 
-//cookies
+//cookies - Learning!!
 //maxAge - expire time,
 //secure - only for https,
 //httpOnly - wont be able to use in frontend js i.e. document.cookies
-app.get('/set-cookies', (req, res) => {
+// app.get('/set-cookies', (req, res) => {
 
-  res.cookie('newUser', false);
-  res.cookie('newEmpy', false, { maxAge: 5000 });
-  res.send('cookies registered');
+//   res.cookie('newUser', false);
+//   res.cookie('newEmpy', false, { maxAge: 5000 });
+//   res.send('cookies registered');
 
-});
-app.get('/read-cookies', (req, res) => {
-  const cookies = req.cookies;
-  console.log(cookies);
-  res.send(cookies);
-});
+// });
+// app.get('/read-cookies', (req, res) => {
+//   const cookies = req.cookies;
+//   console.log(cookies);
+//   res.send(cookies);
+// });
