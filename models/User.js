@@ -24,13 +24,13 @@ const userSchema = new mongoose.Schema({
 //mongoose midleware / mongoose hook
 //fire function after doc saved to db
 userSchema.post('save', (doc, next) => {
-    console.log('new user saved to db', doc);
+    // console.log('new user saved to db', doc);
     next();
 });
 
 //fire a function before doc is saved to db
 userSchema.pre('save', async function(next) {
-    console.log('user about to be created and stored in db', this)
+    // console.log('user about to be created and stored in db', this)
     const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(this.password, salt);
     next();
