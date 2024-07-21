@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 //handle errors
 const handleError = (err) => {
   let errors = { email: '', password: '' };
-
+  // console.log('handleError', err)
   //duplicate email validator
   if (err.code === 11000) {
     errors.email = 'Email already exist in db, please try different email.'
@@ -40,11 +40,14 @@ module.exports.signup_post = async (req, res) => {
   try {
     const user = await User.create({ email, password });
     const token = createToken(user._id);
-    console.log('hello', token);
+    // console.log('hello', token, user);
     res.cookie('jwt-token', token, { httpOnly: true, maxAge: maxAge * 1000 });//maxage in milisecond
     res.status(201).json({ user: user._id});
   } catch (err) {
     const errors = handleError(err);
+
+    console.log('controller', errors);
+    // throw errors;
     res.status(400).json({ errors });
   }
 };
