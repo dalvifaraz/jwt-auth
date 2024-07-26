@@ -3,23 +3,28 @@
   <h2>Signup</h2>
   <label>Email</label>
   <input type="email" name="email" required />
-  <div class="email error"></div>
+  <div id='email-error' class="email error"></div>
   <label>Password</label>
   <input type="password" name="password" required />
-  <div class="password error"></div>
+  <div id='password-error' class="password error"></div>
   <button>Sign up</button>
 </form>
 
 <script>
   const form = document.querySelector('form');
-
+  const emailError = document.getElementById('email-error');
+  const passwordError = document.getElementById('password-error');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    //reset error
+    emailError.textContent = '';
+    passwordError.textContent = '';
 
     //get the values
     const email = form.email.value;
     const password = form.password.value;
-
+    
     try {
       const res = await fetch('/signup', {
         method: 'POST',
@@ -29,9 +34,18 @@
       if (!res.ok) {
         const errorData = await res.json();
         throw (errorData.errors);
+      } else {
+        const data = await res.json();
+        if (data.user) {
+          location.assign('/');
+        } else {
+          throw ('Something went wrong');
+        }
       }
     } catch (error) {
       console.log('error: ', error);
+      emailError.textContent = error.email;
+      passwordError.textContent = error.password;
     }
   });
 </script>
