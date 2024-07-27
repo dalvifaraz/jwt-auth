@@ -9,6 +9,14 @@ const handleError = (err) => {
     errors.email = 'Email already exist in db, please try different email.'
     return errors
   }
+  if (err.message === 'incorrect email') {
+    errors.email = 'this email is not registered';
+  }
+
+  if (err.message === 'incorrect password') {
+    errors.password = 'this password is incorrect';
+  }
+
 
   //validator error
   if (err.message.includes('user validation failed')) {
@@ -51,10 +59,13 @@ module.exports.login_post = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.login(email, password);
+    //create a token and store it in cookie
+    const token = createToken(user._id);
+    res.cookie('jwt-token', token, { httpOnly: true, maxAge: maxAge * 1000 });//maxage in milisecond
     res.status(200).json({ user: user._id });
   } catch (err) {
-    // const errors = handleError(err);
-    res.status(400).json({ err });
+    const errors = handleError(err);
+    res.status(400).json({ errors });
   }
 };
 
