@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 
 const requireAuth = (req, res, next) => {
     const token = req.cookies.jwtToken;
-    console.log('hello', req.cookies);
 
     // check if jwt exist and verify is it correct
     if (token) {

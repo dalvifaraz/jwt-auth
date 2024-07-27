@@ -70,5 +70,6 @@ module.exports.login_post = async (req, res) => {
 };
 
 module.exports.logout = (req, res) => {
-  res.send('user logout');
+  res.cookie('jwtToken', '', { maxAge: 1 });
+  res.redirect('/');
 };
